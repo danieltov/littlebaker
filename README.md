@@ -1,5 +1,6 @@
 # Project 3: Little Baker
 ### [Daniel Tovar](https://danieltovar.io/) | Solo Final Project for the University of Utah Coding Bootcamp
+### Future Heroku Link: https://littlebaker.herokuapp.com/
 
 ### App Type: B2B (Business-to-Business) Platform
 #### A platform/marketplace that connects independent bakers or small bakeries (Purveyors) with local coffee shops, cafés, and restaurants (Procurers).
