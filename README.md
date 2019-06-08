@@ -8,10 +8,10 @@
 * Purveyors list their goods (i.e., a dozen chocolate croissants every Saturday) and stock quantities.
 * Stock updates as Procurers purchase goods.
 * Messaging system between Purveyors and Procurers.
-* No payment processing, obviously.
+* Maybe: Payment processing with Stripe.
 
 ### Challenges
-* Support two type of user authentication: Purveyors and Procurers.
+* Support two type of users: Purveyors and Procurers.
 * Different Views based on user type.
-* Messaging system.
+* Email-style messaging system.
 
