@@ -1,32 +1,82 @@
-const express = require('express');
+// * ==================== DEPENDENCIES ==================== *//
+const express = require( 'express' );
 const router = express.Router();
+const gravatar = require( 'gravatar' );
+const bcrypt = require( 'bcryptjs' );
+const jwt = require( 'jsonwebtoken' );
+const config = require( 'config' );
+const { check, validationResult } = require( 'express-validator/check' ); // ! use express-validate to handle validation and responses 
+const User = require( '../../models/User' )
 
-// ! use express-validate to handle validation and responses 
-const { check, validationResult } = require('express-validator/check');
+
+// * ==================== ROUTES ==================== *//
 
 // * @route   POST api/users
 // * @desc    Register user
 // * @access  Public
-router.post('/', [
+router.post( '/', [
 
   // ! express-validate functions to validate request body START
-  check('name', 'Please enter your full name').not().isEmpty(),
-  check('email', 'Please enter a valid email address').isEmail(),
-  check('password', 'Please enter a password with 8 or more characters').isLength({ min: 8 }),
-  check('accountType', 'Please specify an Account Type').not().isEmpty()
+  check( 'name', 'Please enter your full name' ).not().isEmpty(),
+  check( 'email', 'Please enter a valid email address' ).isEmail(),
+  check( 'password', 'Please enter a password with 8 or more characters' ).isLength( { min: 8 } ),
+  check( 'accountType', 'Please specify an Account Type' ).not().isEmpty()
   // ! express-validate functions to validate request body END
-], (req, res) => {
+], async ( req, res ) => {
 
-    // ! express-validate error catching START
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+  // ! express-validate error catching START
+  const errors = validationResult( req );
+  if ( !errors.isEmpty() ) {
+    return res.status( 400 ).json( { errors: errors.array() } );
+  }
+  // ! express-validate error catching END
+
+  const { name, email, password, accountType } = req.body;
+
+  try {
+    // * See if user exists
+    let user = await User.findOne( { email } );
+
+    if ( user ) {
+      return res.status( 400 ).json( { errors: [{ msg: 'User already exists' }] } )
     }
-    // ! express-validate error catching END
 
-  console.log(req.body);
+    // * Get users gravatar
+    const avatar = gravatar.url( email, {
+      s: '200',
+      r: 'pg',
+      d: 'mm'
+    } );
 
-  res.send('User route')
-});
+    // * Create an instance of the user
+    user = new User( { name, email, avatar, password, accountType } )
+
+    // * Encrypt password with bcrypt
+    const salt = await bcrypt.genSalt( 10 );
+
+    user.password = await bcrypt.hash( password, salt );
+
+    // * Save user to database
+    await user.save();
+
+    // * Return jsonwebtoken
+    const payload = { user: { id: user.id } }
+    jwt.sign(
+      payload,
+      config.get( 'jwtSecret' ),
+      { expiresIn: 360000 },
+      ( err, token ) => {
+        if ( err ) throw err;
+        res.json( { token } );
+      } )
+
+  } catch ( err ) {
+    console.error( err.message );
+    res.status( 500 ).send( 'Server error' );
+  }
+
+
+
+} );
 
 module.exports = router;

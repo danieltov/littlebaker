@@ -1,3 +1,4 @@
 {
-  "mongoURI": "mongodb+srv://danieltovar:CY2BBwpV4lyoX23u@littlebaker-zr0lb.mongodb.net/test?retryWrites=true&w=majority"
+  "mongoURI": "mongodb+srv://danieltovar:CY2BBwpV4lyoX23u@littlebaker-zr0lb.mongodb.net/test?retryWrites=true&w=majority",
+  "jwtSecret": "Never argue with the data."
 }
