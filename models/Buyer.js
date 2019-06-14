@@ -1,5 +1,5 @@
 const mongoose = require( 'mongoose' );
-const Base = require( './Base' );
+const Base = require( './BaseProfile' );
 
 const BuyerProfileSchema = new mongoose.Schema( {
   orders: {
@@ -8,6 +8,6 @@ const BuyerProfileSchema = new mongoose.Schema( {
   }
 } );
 
-const Buyer = Base.discriminator( 'Buyer', BuyerProfileSchema );
+const Buyer = Base.discriminator( 'buyer', BuyerProfileSchema );
 
 module.exports = mongoose.model( 'buyer' );

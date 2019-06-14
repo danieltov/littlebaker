@@ -1,5 +1,5 @@
 const mongoose = require( 'mongoose' );
-const Base = require( './Base' );
+const Base = require( './BaseProfile' );
 
 const SellerProfileSchema = new mongoose.Schema( {
   products: {
@@ -8,7 +8,6 @@ const SellerProfileSchema = new mongoose.Schema( {
   }
 } );
 
-const Seller = Base.discriminator( 'Seller', SellerProfileSchema
-);
+const Seller = Base.discriminator( 'seller', SellerProfileSchema );
 
 module.exports = mongoose.model( 'seller' );
