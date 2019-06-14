@@ -1,13 +1,14 @@
 const mongoose = require( 'mongoose' );
 const Base = require( './Base' );
 
-
-const Seller = Base.discriminator( 'Seller', new mongoose.Schema( {
+const SellerProfileSchema = new mongoose.Schema( {
   products: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'product'
   }
-} ),
+} );
+
+const Seller = Base.discriminator( 'Seller', SellerProfileSchema
 );
 
-module.exports = mongoose.model( 'Seller' );
+module.exports = mongoose.model( 'seller' );

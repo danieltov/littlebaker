@@ -1,11 +1,5 @@
 const mongoose = require( 'mongoose' );
 
-const baseOptions = {
-  discriminatorKey: 'profileType',
-  collection: 'profiles'
-};
-
-
 const BaseProfileSchema = new mongoose.Schema( {
   user: {
     type: mongoose.Schema.Types.ObjectId,
@@ -34,4 +28,9 @@ const BaseProfileSchema = new mongoose.Schema( {
   }
 } );
 
-module.exports = Base = mongoose.model( 'Base', BaseProfileSchema, baseOptions );
+const baseOptions = {
+  discriminatorKey: 'profileType',
+  collection: 'profiles'
+};
+
+module.exports = Base = mongoose.model( 'base', BaseProfileSchema, baseOptions );
