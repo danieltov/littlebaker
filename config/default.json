@@ -1,4 +1,4 @@
 {
-  "mongoURI": "mongodb+srv://danieltovar:CY2BBwpV4lyoX23u@littlebaker-zr0lb.mongodb.net/test?retryWrites=true&w=majority",
+  "mongoURI": "mongodb://uubc_project3:*Victor3862TealBlue@ds239797.mlab.com:39797/heroku_dbsk3ptp",
   "jwtSecret": "Never argue with the data."
 }
