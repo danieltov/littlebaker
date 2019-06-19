@@ -1,4 +1,0 @@
-{
-  "mongoURI": "mongodb://uubc_project3:*Victor3862TealBlue@ds239797.mlab.com:39797/heroku_dbsk3ptp",
-  "jwtSecret": "Never argue with the data."
-}
