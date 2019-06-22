@@ -52,34 +52,6 @@ router.get('/me', auth, async (req, res) => {
   }
 });
 
-// * @route   GET api/profile/sellers
-// * @desc    Get all seller profiles
-// * @access  Public
-
-router.get('/sellers', async (req, res) => {
-  try {
-    const sellers = await Seller.find().populate('user', ['name', 'avatar']);
-    res.json(sellers);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send('Server Error');
-  }
-});
-
-// * @route   GET api/profile/buyers
-// * @desc    Get all buyer profiles
-// * @access  Public
-
-router.get('/buyers', async (req, res) => {
-  try {
-    const buyers = await Buyer.find().populate('user', ['name', 'avatar']);
-    res.json(buyers);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send('Server Error');
-  }
-});
-
 // * @route   GET api/profile/id
 // * @desc    Get profile by User ID
 // * @access  Public
