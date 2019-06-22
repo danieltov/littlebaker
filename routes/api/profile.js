@@ -115,7 +115,7 @@ router.post(
         }
 
         // ! Create
-        seller = await Seller.create(profileFields);
+        seller = await seller.save(profileFields);
         return res.json(seller);
       } else {
         let buyer = await Buyer.findOne({
@@ -132,7 +132,7 @@ router.post(
         }
 
         // ! Create
-        buyer = await Buyer.create(profileFields);
+        buyer = await buyer.save(profileFields);
         return res.json(buyer);
       }
     } catch (err) {
