@@ -1,36 +1,38 @@
-const mongoose = require( 'mongoose' );
+const mongoose = require('mongoose');
 
 const baseOptions = {
   discriminatorKey: 'profileType',
   collection: 'profiles'
 };
 
-const BaseProfileSchema = new mongoose.Schema( {
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'user'
+const BaseProfileSchema = new mongoose.Schema(
+  {
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'user'
+    },
+    handle: {
+      type: String,
+      required: true
+    },
+    company: {
+      type: String,
+      required: true
+    },
+    website: {
+      type: String
+    },
+    location: {
+      type: String
+    },
+    headline: {
+      type: String
+    },
+    description: {
+      type: String
+    }
   },
-  handle: {
-    type: String,
-    required: true,
-    unique: true
-  },
-  company: {
-    type: String,
-    required: true,
-  },
-  website: {
-    type: String,
-  },
-  location: {
-    type: String,
-  },
-  headline: {
-    type: String,
-  },
-  description: {
-    type: String,
-  }
-}, baseOptions );
+  baseOptions
+);
 
-module.exports = Base = mongoose.model( 'base', BaseProfileSchema );
+module.exports = Base = mongoose.model('base', BaseProfileSchema);

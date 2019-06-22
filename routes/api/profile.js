@@ -52,6 +52,40 @@ router.get('/me', auth, async (req, res) => {
   }
 });
 
+// * @route   GET api/profile/sellers
+// * @desc    Get all seller profiles
+// * @access  Public
+
+router.get('/sellers', async (req, res) => {
+  try {
+    const sellers = await Seller.find().populate('user', ['name', 'avatar']);
+    res.json(sellers);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+// * @route   GET api/profile/buyers
+// * @desc    Get all buyer profiles
+// * @access  Public
+
+router.get('/buyers', async (req, res) => {
+  try {
+    const buyers = await Buyer.find().populate('user', ['name', 'avatar']);
+    res.json(buyers);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+// * @route   GET api/profile/id
+// * @desc    Get profile by User ID
+// * @access  Public
+
+router.get('/:id', auth, async (req, res) => {});
+
 // * @route   POST api/profile/
 // * @desc    Create or update profile
 // * @access  Private
@@ -88,7 +122,9 @@ router.post(
       website,
       location,
       headline,
-      description
+      description,
+      products,
+      orders
     } = req.body;
 
     // ! Build profile obj
@@ -112,10 +148,13 @@ router.post(
             { $set: profileFields },
             { new: true }
           );
+          return res.json(seller);
         }
 
         // ! Create
-        seller = await seller.save(profileFields);
+        seller = new Seller(profileFields);
+
+        await seller.save();
         return res.json(seller);
       } else {
         let buyer = await Buyer.findOne({
@@ -129,10 +168,12 @@ router.post(
             { $set: profileFields },
             { new: true }
           );
+          return res.json(seller);
         }
 
         // ! Create
-        buyer = await buyer.save(profileFields);
+        buyer = new Buyer(profileFields);
+        await buyer.save();
         return res.json(buyer);
       }
     } catch (err) {
