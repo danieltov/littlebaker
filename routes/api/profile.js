@@ -5,6 +5,7 @@ const router = express.Router();
 const auth = require('../../middleware/auth');
 const { check, validationResult } = require('express-validator/check'); // ! use express-validate to handle validation and responses
 
+const Profile = require('../../models/BaseProfile');
 const Seller = require('../../models/Seller');
 const Buyer = require('../../models/Buyer');
 
@@ -80,11 +81,22 @@ router.get('/buyers', async (req, res) => {
   }
 });
 
-// * @route   GET api/profile/id
+// * @route   GET api/profile/user/:user_id
 // * @desc    Get profile by User ID
 // * @access  Public
 
-router.get('/:id', auth, async (req, res) => {});
+router.get('/user/:user_id', async (req, res) => {
+  try {
+    const profile = await Profile.findOne({ user: req.params.user_id });
+
+    if (!profile)
+      return res.status(400).json({ msg: 'There is no profile for this user' });
+    res.json(profile);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
 
 // * @route   POST api/profile/
 // * @desc    Create or update profile
