@@ -5,7 +5,6 @@ const router = express.Router();
 const auth = require('../../middleware/auth');
 const { check, validationResult } = require('express-validator/check'); // ! use express-validate to handle validation and responses
 
-const User = require('../../models/User');
 const Seller = require('../../models/Seller');
 const Buyer = require('../../models/Buyer');
 
@@ -89,14 +88,7 @@ router.post(
       website,
       location,
       headline,
-      description,
-      products,
-      orders,
-      productName,
-      inventory,
-      sold,
-      price,
-      category
+      description
     } = req.body;
 
     // ! Build profile obj
@@ -109,22 +101,7 @@ router.post(
     if (headline) profileFields.headline = headline;
     if (description) profileFields.description = description;
 
-    /*
-
-    ! Build products obj
-    ? Do I need this on *THIS* route? No probably not.
-
-    profileFields.products = {};
-    if (productName) profileFields.products.productName = productName;
-    if (inventory) profileFields.products.inventory = inventory;
-    if (price) profileFields.products.price = price;
-    if (sold) profileFields.products.sold = sold;
-    if (category) profileFields.products.category = category;
-
-    */
-
     try {
-      console.log(req.user);
       if (req.user.accountType === 'Seller') {
         let seller = await Seller.findOne({ user: req.user.id });
 
@@ -138,7 +115,6 @@ router.post(
         }
 
         // ! Create
-        // ! ! ! ! THIS IS NOT WORKING
         seller = await Seller.create(profileFields);
         return res.json(seller);
       } else {
@@ -156,7 +132,6 @@ router.post(
         }
 
         // ! Create
-        // ! ! ! ! THIS IS NOT WORKING
         buyer = await Buyer.create(profileFields);
         return res.json(buyer);
       }

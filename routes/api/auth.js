@@ -15,6 +15,7 @@ const User = require('../../models/User');
 // * @route   GET api/auth
 // * @desc    Protected route that returns user data
 // * @access  Public
+
 router.get('/', auth, async (req, res) => {
   try {
     const user = await User.findById(req.user.id).select('-password'); // select method '-password' leaves off password
